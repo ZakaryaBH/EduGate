@@ -1,0 +1,15 @@
+{
+  "name": "edugate",
+  "version": "1.0.0",
+  "description": "TP in Express.js Class",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "EduGate"
+  },
+  "author": "BABAHAJ Zakarya & CHARBIL Anouar & DADA Yasmina",
+  "license": "ISC"
+}
