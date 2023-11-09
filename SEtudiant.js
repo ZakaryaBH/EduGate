@@ -3,9 +3,9 @@ const Inscription = require('./db');
 const Filiere = require('./db');
 const DmModification = require('./db');
 
-router.post('/inscrir', async (req, res) => {
-  const { idInscription, cne, filiere, dateInscription } = req.body;
 
+router.post('/inscrir', async (req, res) => {
+  const { idInscription, cne, filiere } = req.body;
   const existingInscription = await Inscription.findOne({ cne });
   if (existingInscription) {
     return res.status(400).json({ message: 'Vous ete deja inscrit' });
@@ -16,6 +16,7 @@ router.post('/inscrir', async (req, res) => {
     return res.status(400).json({ message: 'Cette filiere est plein' });
   }
 
+  dateInscription=Date.now();
   const newInscription = new Inscription({
     idInscription,
     cne,
@@ -44,21 +45,25 @@ router.post('/demodifier/:id', async (req, res) => {
 
 
 router.put('/modifier/:id', async (req, res) => {
-  const { idInscription, cne, filiere, dateInscription } = req.body;
-
-  const existingDmModification = await DmModification.findOne({ inscription: idInscription });
-  if (existingDmModification) {
-    const timeDifference = Date.now() - existingDmModification.dateAprouvement;
-    if (timeDifference < 604800000) {
-      await Inscription.updateOne({ idInscription }, { cne, filiere, dateInscription });
-      res.json({ message: 'Inscription modifier' });
+    const { idInscription } = req.params;
+    const { cne, filiere } = req.body;
+  
+    const existingDmModification = await DmModification.findOne({ inscription: idInscription });
+    if (existingDmModification) {
+      if (existingDmModification.accepted) {
+        if(Date.now() - existingDmModification.actionDate < 604800000){
+            await Inscription.updateOne({ idInscription }, { cne, filiere });
+            res.json({ message: 'Inscription modifier' });
+        }else {
+            res.status(400).json({ message: 'Le délai de possibilite de modification est passé' });
+        }
+      } else{
+        res.status(400).json({ message: 'Votre demande de modification n\'a pas été acceptée' });
+      } 
     } else {
-      res.status(400).json({ message: 'tu a passer le delais d\'une semaine '});
+      res.status(400).json({ message: 'Vous devez d\'abord demander à modifier votre inscription' });
     }
-  } else {
-    res.status(400).json({ message: 'tu doit demander de modifier l\'inscription premierement' });
-  }
-});
+  });
 
 router.get('/inscription/:id', async (req, res) => {
   const { id } = req.params;
