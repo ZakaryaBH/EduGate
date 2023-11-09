@@ -28,18 +28,15 @@ router.post('/inscrir', async (req, res) => {
 
 
 router.post('/demodifier/:id', async (req, res) => {
-  const { idModification, inscription, filiere, dateAprouvement } = req.body;
+  const { idModification, inscription } = req.body;
 
   const existingDmModification = await DmModification.findOne({ inscription });
   if (existingDmModification) {
     return res.status(400).json({ message: 'tu a deja demander de modifier' });
   }
-
   const newDmModification = new DmModification({
     idModification,
     inscription,
-    filiere,
-    dateAprouvement,
   });
   await newDmModification.save();
   res.json(newDmModification);
