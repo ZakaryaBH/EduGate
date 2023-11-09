@@ -1,16 +1,37 @@
 const mongoose = require('mongoose');
 
-mongoose.connect('mongodb://localhost/dbBooks', {
+mongoose.connect('mongodb://localhost/Edugate', {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
 
-const bookSchema = new mongoose.Schema({
-  title: String,
-  author: String,
-  isbn: String,
+const inscriptionSchema = new mongoose.Schema({
+  idInscription: String,
+  cne: String,
+  filiere: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Filiere',
+  },
+  dateInscription: Date,
 });
 
-const Book = mongoose.model('Book', bookSchema);
+const filiereSchema = new mongoose.Schema({
+  idFiliere: String,
+  nom: String,
+  nbEtu: Number,
+});
 
-module.exports = { Book };
+const dmModificationSchema = new mongoose.Schema({
+  idModification: String,
+  inscription: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Inscription',
+  },
+  dateAprouvement: Date,
+});
+
+const Inscription = mongoose.model('inscription', inscriptionSchema);
+const Filiere = mongoose.model('filiere', filiereSchema);
+const DmModification = mongoose.model('dmModification', dmModificationSchema);
+
+module.exports = { Inscription, Filiere, DmModification};
