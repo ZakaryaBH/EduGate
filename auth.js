@@ -7,7 +7,6 @@ const Etudiant = require('./db');
 const router = require("express").Router();
 const secretKey = 'KEY_TP_EXPRESS';
 
-
 const gestionnaireMiddleware = async (req, res, next) => {
     const token = req.headers.authorization;
     if (!token) {
@@ -67,6 +66,7 @@ router.post('/etudiant-login', async (req, res) => {
     const { username, password } = req.body;
     try {
         const user = await Etudiant.findOne({ username, password});
+        console.log(user)
         if (user) {
             const token = jwt.sign({ id: user.cne, type: 'etudiant'}, secretKey);
             res.json({ token });
