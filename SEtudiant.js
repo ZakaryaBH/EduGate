@@ -3,7 +3,6 @@ const Inscription = require('./db');
 const Filiere = require('./db');
 const DmModification = require('./db');
 
-
 router.post('/inscrir', async (req, res) => {
   const { idInscription, cne, filiere } = req.body;
   const existingInscription = await Inscription.findOne({ cne });
@@ -43,11 +42,10 @@ router.post('/demodifier/:id', async (req, res) => {
   res.json(newDmModification);
 });
 
-
 router.put('/modifier/:id', async (req, res) => {
     const { idInscription } = req.params;
     const { cne, filiere } = req.body;
-  
+
     const existingDmModification = await DmModification.findOne({ inscription: idInscription });
     if (existingDmModification) {
       if (existingDmModification.accepted) {
