@@ -1,6 +1,5 @@
-const Inscription = require('./db');
+const router = require("express").Router();
 const DmModification = require('./db');
-const router = express.Router();
 
 router.post('/acceptModification/:id', async (req, res) => {
   const id = req.params.id;
