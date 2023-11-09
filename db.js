@@ -7,7 +7,11 @@ mongoose.connect('mongodb://localhost/Edugate', {
 
 const inscriptionSchema = new mongoose.Schema({
   idInscription: String,
-  cne: String,
+  cne: {
+    type: String,
+    required: true,
+    unique: true
+  },
   filiere: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Filiere',
