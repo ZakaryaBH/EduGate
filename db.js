@@ -27,11 +27,12 @@ const dmModificationSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Inscription',
   },
-  dateAprouvement: Date,
+  actionDate: Date,
+  accepted: Boolean,
 });
 
 const Inscription = mongoose.model('inscription', inscriptionSchema);
 const Filiere = mongoose.model('filiere', filiereSchema);
 const DmModification = mongoose.model('dmModification', dmModificationSchema);
 
-module.exports = { Inscription, Filiere, DmModification};
+module.exports = { Inscription, Filiere, DmModification, mongoose};
