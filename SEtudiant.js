@@ -1,7 +1,5 @@
 const router = require("express").Router();
-const Inscription = require('./db');
-const Filiere = require('./db');
-const DmModification = require('./db');
+const {Filiere,DmModification,Inscription} = require('./db');
 
 router.post('/inscrir', async (req, res) => {
   const { idInscription, cne, filiere } = req.body;
