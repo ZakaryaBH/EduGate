@@ -1,10 +1,8 @@
-const express = require('express');
-const jwt = require('jsonwebtoken');
-const mongoose = require('./db');
-const Gestionnaire = require('./db');
-const Etudiant = require('./db');
-
 const router = require("express").Router();
+const jwt = require('jsonwebtoken');
+const {Gestionnaire,Etudiant} = require('./db');
+
+
 const secretKey = 'KEY_TP_EXPRESS';
 
 const gestionnaireMiddleware = async (req, res, next) => {
@@ -86,4 +84,4 @@ router.get('/etudiant-route', etudiantMiddleware, (req, res) => {
     res.json({ message: 'Welcome, etudiant!' });
 });
 
-module.exports = router;
+module.exports = { router, gestionnaireMiddleware, etudiantMiddleware };
